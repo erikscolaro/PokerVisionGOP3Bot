@@ -1,7 +1,7 @@
-# GOP3ANTIBOT
+# PokerVisionGOP3Bot
 
 ## Description
-GOP3ANTIBOT is an advanced image analysis tool designed for poker gameplay. It utilizes computer vision techniques to detect and interpret poker game elements from screen captures, including cards, player bets, and game stages. The system employs Tesseract OCR for text recognition and OpenCV for image processing and template matching.
+PokerVisionGOP3Bot is an advanced image analysis tool designed for poker gameplay. It utilizes computer vision techniques to detect and interpret poker game elements from screen captures, including cards, player bets, and game stages. The system employs Tesseract OCR for text recognition and OpenCV for image processing and template matching.
 
 ## Features
 - **Advanced Image Processing**: Uses OpenCV for preprocessing images with techniques like:
