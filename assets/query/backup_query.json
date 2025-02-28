@@ -1,0 +1,117 @@
+[
+   {
+      "type": "template",
+      "details": "budget_totale",
+      "paths": [
+         "assets\\template\\processed\\budget_totale-1.png"
+      ],
+      "confidence_threshold": 0.6,
+      "overlap_threshold": 0.1,
+      "has_text": true
+   },
+   {
+      "type": "template",
+      "details": "button_leave",
+      "paths": [
+         "assets\\template\\processed\\button_leave-1.png"
+      ],
+      "confidence_threshold": 0.9,
+      "overlap_threshold": 0.1,
+      "has_text": false
+   },
+   {
+      "type": "template",
+      "details": "call_button",
+      "paths": [
+         "assets\\template\\processed\\call_button-1.png"
+      ],
+      "confidence_threshold": 0.9,
+      "overlap_threshold": 0.1,
+      "has_text": true
+   },
+   {
+      "type": "template",
+      "details": "cover_cards",
+      "paths": [
+         "assets\\template\\processed\\cover_cards-1.png",
+         "assets\\template\\processed\\cover_cards-2.png",
+         "assets\\template\\processed\\cover_cards-3.png",
+         "assets\\template\\processed\\cover_cards-4.png",
+         "assets\\template\\processed\\cover_cards-5.png",
+         "assets\\template\\processed\\cover_cards-6.png",
+         "assets\\template\\processed\\cover_cards-7.png"
+      ],
+      "confidence_threshold": 0.7,
+      "overlap_threshold": 0.01,
+      "has_text": false
+   },
+   {
+      "type": "template",
+      "details": "dealer_button",
+      "paths": [
+         "assets\\template\\processed\\dealer_button-1.png",
+         "assets\\template\\processed\\dealer_button-2.png",
+         "assets\\template\\processed\\dealer_button-3.png"
+      ],
+      "confidence_threshold": 0.6,
+      "overlap_threshold": 0.1,
+      "has_text": false
+   },
+   {
+      "type": "template",
+      "details": "game_tag",
+      "paths": [
+         "assets\\template\\processed\\game_tag-0.png",
+         "assets\\template\\processed\\game_tag-1.png",
+         "assets\\template\\processed\\game_tag-2.png",
+         "assets\\template\\processed\\game_tag-3.png",
+         "assets\\template\\processed\\game_tag-4.png"
+      ],
+      "confidence_threshold": 0.5,
+      "overlap_threshold": 0.01,
+      "has_text": true
+   },
+   {
+      "type": "template",
+      "details": "player_cards",
+      "paths": [
+         "assets\\template\\processed\\player_cards-1.png"
+      ],
+      "confidence_threshold": 0.6,
+      "overlap_threshold": 0.1,
+      "has_text": false
+   },
+   {
+      "type": "template",
+      "details": "raise_button",
+      "paths": [
+         "assets\\template\\processed\\raise_button-1.png"
+      ],
+      "confidence_threshold": 0.9,
+      "overlap_threshold": 0.1,
+      "has_text": false
+   },
+   {
+      "type": "template",
+      "details": "shared_card",
+      "paths": [
+         "assets\\template\\processed\\shared_card-1.png"
+      ],
+      "confidence_threshold": 0.9,
+      "overlap_threshold": 0.1,
+      "has_text": false
+   },
+   {
+      "type": "template",
+      "details": "bet_tag",
+      "paths": [
+         "assets\\template\\processed\\bet_tag-1.png",
+         "assets\\template\\processed\\bet_tag-2.png",
+         "assets\\template\\processed\\bet_tag-3.png",
+         "assets\\template\\processed\\bet_tag-4.png"
+      ],
+      "confidence_threshold": 0.5,
+      "overlap_threshold": 0.1,
+      "has_text": true
+   }
+]
