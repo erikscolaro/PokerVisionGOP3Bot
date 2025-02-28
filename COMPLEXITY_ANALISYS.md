@@ -1,34 +1,50 @@
-# RICORDA: tesseract deve essere installato a livello di sitema e il path deve essere specificato in image_text.py
+# REMEMBER: tesseract must be installed at system level and the path must be specified in image_text.py
 
-## Analisi computazionale: confronto tra i vari metodi di template matching in open cv
+## Computational Analysis: Comparison of Various Template Matching Methods in OpenCV
 
-Siano date una immagine detta target con le dimensioni \( W_T=1920 \) e \( H_T=1080 \)  e \(M\) immagini con dimensioni \(W_M\) e \(H_M\). Si definisca anche il fattore di scalamento del _pyramid scaling_ di cv2 come \(S=1/2\). Allora si hanno le seguenti complessità computazionali:
+Given a target image with dimensions $W_T=1920$ and $H_T=1080$ and $M$ template images with dimensions $W_M$ and $H_M$. Let's define the pyramid scaling factor in cv2 as $S=1/2$. The following computational complexities apply:
 
-- Per il _template matching_ standard $$ \sum_{i=0}^{M} O(W_{Mi} \cdot H_{Mi} \cdot W_T \cdot H_T) $$
+- For standard _template matching_:
 
-- Per il _template matching_ con _pyramid scaling_ , assumendo di aver già prescalato l'immagine target e le immagini template di un fattore di scalamento S è $$ \sum_{i=0}^{M} O( S^4 \cdot W_{Mi} \cdot H_{Mi} \cdot W_T \cdot H_T) $$ 
+$$\sum_{i=0}^{M} O(W_{Mi} \cdot H_{Mi} \cdot W_T \cdot H_T)$$
 
-- Per il calcolo della convoluzione attraverso trasformata di fourier bidimensionale si seguono i seguenti passsaggi:
-    - FFT2D dell'immagine target $$O(W_T \cdot H_T \cdot \log_2(W_T \cdot H_T))$$
-    - FFT2D delle immagini template $$ \sum_{i=0}^{M} O(W_{Mi} \cdot H_{Mi} \cdot \log_2(W_{Mi} \cdot H_{Mi})) $$
-    - Padding delle immagini template
-    - Moltiplicazione delle FFT2D dell'immagine target con le FFT2d delle immagini template $$ \sum_{i=0}^{M} O(W_T \cdot H_T) = O(M \cdot W_T \cdot H_T)$$
-    - IFFT2D delle moltiplicazioni precedenti $$\sum_{i=0}^{M} O(W_T \cdot H_T \cdot \log_2(W_T \cdot H_T)) = O(M \cdot W_T \cdot H_T \cdot \log_2(W_T \cdot H_T))$$
-    - Se assumiamo di aver precalcolato le fft2d delle immagini di template e di averne già fatto il padding, allora la complessità esatta è pari a quella di moltiplicazione e inversa della trasformata. $$ O(M \cdot W_T \cdot H_T) + O(M \cdot W_T \cdot H_T \cdot \log_2(W_T \cdot H_T)) $$ 
-    Dal momento che stiamo ragionando in o-grande e assumendo \( W_T \cdot H_T >> 2 \) il primo termine risulta trascurabile, quindi la complessità o-grande finale è $$ O(M \cdot W_T \cdot H_T \cdot \log_2(W_T \cdot H_T)) $$
+- For _template matching_ with _pyramid scaling_, assuming we've already pre-scaled the target image and template images by a scaling factor S:
 
-Effettuiamo ora il confronto tra le varie tecniche. Il _template matching_ con fattore di scalamento risulta sempre più efficiente della tecnica senza scalamento. Riscrivendo la complessità del _template matching_ con scalamento:
-$$ O( S^4 \cdot W_T \cdot H_T \cdot \sum_{i=0}^{M}(W_{Mi} \cdot H_{Mi})) $$ 
-La trasformata di fourier risulta conveniente rispetto al _template matching_ con scalamento solo se:
-$$ S^4 \cdot \sum_{i=0}^{M}(W_{Mi} \cdot H_{Mi}) > M \cdot \log_2(W_T \cdot H_T) $$
-Dividendo per M, il termine risultante \(\sum_{i=0}^{M}(W_{Mi}\cdot H_{Mi})/M\) corrisponde all'area media delle immagini template. Assumiamo come peggiore il caso in cui le immagini template abbiano una superficie media di 16x16 pixel e con dimensioni dell'immagine target 1920x1080:
+$$\sum_{i=0}^{M} O(S^4 \cdot W_{Mi} \cdot H_{Mi} \cdot W_T \cdot H_T)$$
 
-$$ S^4 \cdot (\sum_{i=0}^{M}(W_{Mi} \cdot H_{Mi}))/M > \log_2(W_T \cdot H_T) $$
+- For calculating convolution through two-dimensional Fourier transform, the following steps are taken:
+    - FFT2D of the target image: 
+    $$O(W_T \cdot H_T \cdot \log_2(W_T \cdot H_T))$$
+    - FFT2D of the template images: 
+    $$\sum_{i=0}^{M} O(W_{Mi} \cdot H_{Mi} \cdot \log_2(W_{Mi} \cdot H_{Mi}))$$
+    - Padding of template images
+    - Multiplication of FFT2D of the target image with FFT2D of template images: 
+    $$\sum_{i=0}^{M} O(W_T \cdot H_T) = O(M \cdot W_T \cdot H_T)$$
+    - IFFT2D of the previous multiplications: 
+    $$\sum_{i=0}^{M} O(W_T \cdot H_T \cdot \log_2(W_T \cdot H_T)) = O(M \cdot W_T \cdot H_T \cdot \log_2(W_T \cdot H_T))$$
+    - If we assume pre-calculated FFT2D of template images with padding already applied, then the exact complexity equals that of multiplication and inverse transform: 
+    $$O(M \cdot W_T \cdot H_T) + O(M \cdot W_T \cdot H_T \cdot \log_2(W_T \cdot H_T))$$
+    
+    Since we're discussing Big-O notation and assuming $W_T \cdot H_T >> 2$, the first term becomes negligible, making the final Big-O complexity:
+    $$O(M \cdot W_T \cdot H_T \cdot \log_2(W_T \cdot H_T))$$
 
-$$ S^4 \cdot avg(Area(immagini_{template})) > S^4 \cdot 16 \cdot 16 > log_2 (1920\cdot1080)\\
- \iff S > \sqrt[4]{log_2(1920\cdot1080) / (16\cdot16)} \approx 0.4 $$
-Se 1/S deve essere multiplo di due, Allora \(S>=1/(2^1)= 0.5 > 0.4\) l'unico fattore di scalamento accettabile nel caso peggiore è uno scalamento di fattore 2.
+Now let's compare these techniques. Template matching with scaling is always more efficient than without scaling. Rewriting the complexity of template matching with scaling:
 
-### Conlcusione 
+$$O(S^4 \cdot W_T \cdot H_T \cdot \sum_{i=0}^{M}(W_{Mi} \cdot H_{Mi}))$$
 
-Dal momento che useremo immagini di template maggiori di 16x16 in ogni caso e che un fattore di scalamento di 2 rappresenta una perdita di informazione trascurabile in questo caso, anzi potrebbe addirittura portare dei benefici per quanto riguarda la riduzione del rumore dell'immagine, utilizzerò nel progetto una tecnica di _template matching_ con fattore di scalamento pari a 2.
+The Fourier transform approach becomes advantageous compared to scaled template matching only if:
+
+$$S^4 \cdot \sum_{i=0}^{M}(W_{Mi} \cdot H_{Mi}) > M \cdot \log_2(W_T \cdot H_T)$$
+
+Dividing by M, the resulting term $\sum_{i=0}^{M}(W_{Mi}\cdot H_{Mi})/M$ corresponds to the average area of template images. Let's assume the worst case where template images have an average size of 16x16 pixels with the target image dimensions of 1920x1080:
+
+$$S^4 \cdot (\sum_{i=0}^{M}(W_{Mi} \cdot H_{Mi}))/M > \log_2(W_T \cdot H_T)$$
+
+$$S^4 \cdot \text{avg}(\text{Area}(\text{template\_images})) > S^4 \cdot 16 \cdot 16 > \log_2(1920\cdot1080)\\
+ \iff S > \sqrt[4]{\log_2(1920\cdot1080) / (16\cdot16)} \approx 0.4$$
+ 
+If 1/S must be a multiple of two, then $S \geq 1/(2^1) = 0.5 > 0.4$, the only acceptable scaling factor in the worst case is a scaling factor of 2.
+
+### Conclusion 
+
+Since we'll use template images larger than 16x16 in any case, and a scaling factor of 2 represents a negligible loss of information in this case (it might even provide benefits in terms of image noise reduction), I will use a _template matching_ technique with a scaling factor of 2 in this project.
